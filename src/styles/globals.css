@@ -1,42 +1,1163 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  margin: 0;
+  font-family: "Outfit", Arial, sans-serif;
+  background-color: #f4f6f9;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Mobile Menu */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 1000;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
 }
 
-* {
-  box-sizing: border-box;
+
+.mobile-menu .menu {
+  list-style: none;
+  padding: 0;
+}
+
+.mobile-menu .menu-item {
+  margin: 10px 0;
+}
+
+.mobile-menu .menu-item a {
+  text-decoration: none;
+  color: black; /* Adjust as needed */
+}
+
+.mobile-menu .dropdown-menu {
+  padding-left: 20px; /* Indent dropdown items */
+}
+
+.mobile-menu-toggle {
+  display: none;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 250px;
+  background-color: #1c1c9e;
+  color: #ecf0f1;
+  height: 100vh;
+  position: fixed;
+  overflow: hidden;
+  transition: width 0.3s;
+  padding: 10px;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.menu-text {
+  display: inline-block;
+  transition: opacity 0.3s;
+  margin-left: 5px;
+}
+
+.sidebar .menu-text {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+.sidebar.collapsed .menu-text {
+  opacity: 0;
+}
+
+/* Adjusting for collapsed sidebar state */
+.sidebar.collapsed .menu-item {
+  text-align: center;
+}
+
+.sidebar.collapsed .menu-item a {
+  padding: 10px;
+}
+
+.sidebar.collapsed .menu-item a .menu-text {
+  opacity: 0;
+}
+
+/* Show menu text when hovering over the icon */
+.sidebar.collapsed .menu-item:hover .menu-text {
+  opacity: 1;
+}
+
+.sidebar .logo {
+  text-align: center;
+  font-size: 24px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #ecf0f1;
+}
+
+/* Collapsed sidebar logo */
+.sidebar.closed .logo {
+  font-size: 20px;
+  padding: 15px 0;
+  justify-content: center;
+}
+
+.sidebar.closed {
+  width: 60px; /* Collapsed sidebar */
+  overflow: visible; /* Allow dropdowns to show outside sidebar */
+}
+
+/* Hide invite section when collapsed */
+.sidebar.closed .invite-section {
+  display: none;
+}
+
+.menu-toggle {
+  font-size: 22px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #1c1c9e;
+  padding: 8px;
+  margin-left: 10px;
+}
+
+.sidebar.closed .logo {
+  justify-content: center;
+}
+
+/* Collapsed sidebar menu positioning */
+.sidebar.closed .menu {
+  margin-top: 20px; /* Space after logo */
+  position: relative;
+  z-index: 100; /* Ensure menu stays above other content */
+}
+
+
+.sidebar.closed .menu-item:hover .dropdown-menu {
+  display: block;
+}
+
+.sidebar.closed .dropdown-menu li {
+  padding: 2px 0;
+}
+
+.sidebar.closed .dropdown-menu li a {
+  color: white;
+  padding: 6px 15px;
+  /* display: block;
+  white-space: nowrap; */
+}
+
+.sidebar.closed .dropdown-menu li a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar.closed .menu-item:hover .collapsed-dropdown {
+  display: block;
+}
+
+.sidebar.closed .collapsed-dropdown .menu-text {
+  display: block !important;
+  color: white;
+  padding: 10px 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar.closed .collapsed-dropdown .dropdown-menu {
+  visibility: visible;
+  opacity: 1;
+  max-height: none;
+  padding: 5px 0;
+  background: transparent;
+}
+
+.sidebar.closed .collapsed-dropdown .dropdown-menu li a {
+  color: white;
+  padding: 8px 15px;
+  display: block;
+}
+
+.sidebar.closed .collapsed-dropdown .dropdown-menu li a:hover {
+  background: rgba(255,255,255,0.1);
+}
+.collapsed-dropdown .menu-text {
+  display: none !important;
+  color: white;
+  padding: 10px 15px;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.collapsed-dropdown .dropdown-menu {
+  display: block !important;
+  visibility: visible;
+  max-height: none;
+  padding: 5px 0;
+  margin: 0;
+  background: transparent;
+}
+
+.collapsed-dropdown .dropdown-menu li a {
+  color: white;
+  padding: 8px 15px;
+  display: block;
+}
+
+.collapsed-dropdown .dropdown-menu li a:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Base styles for sidebar icons */
+.sidebar .menu-item i {
+  font-size: 20px;
+  width: 35px;
+}
+
+/* Hide all text when sidebar is collapsed */
+.sidebar.closed .menu-text,
+.sidebar.closed .dropdown-icon {
+  display: none;
+}
+
+.sidebar.closed .menu-item:hover {
+  z-index: 1001; /* Ensure hovered item stays on top */
+  pointer-events: all;
+}
+
+/* Hide dropdown icon when sidebar is collapsed */
+.sidebar.closed .dropdown-icon {
+  display: none;
+}
+
+.sidebar.closed .menu-item:hover .hover-dropdown {
+  display: block;
+}
+
+.hover-dropdown .menu-text {
+  display: block !important;
+  color: white;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.hover-dropdown .dropdown-items {
+  list-style: none;
+  padding-left: 10px;
+}
+
+.hover-dropdown .dropdown-items li {
+  padding: 5px 0;
+  color: #fff;
+}
+
+.collapsed-dropdown {
+  display: none;
+  position: absolute;
+  left: 50px;
+  top: 0;
+  background: #244b7a;
+  padding: 10px;
+  border-radius: 4px;
+  min-width: 180px;
+  z-index: 1000;
+}
+
+.collapsed-menu-item:hover .collapsed-dropdown {
+  display: block;
+}
+
+/* Adjust padding for items without dropdowns */
+.collapsed-dropdown:not(:has(.collapsed-items)) {
+  padding: 5px 10px;
+}
+
+.collapsed-items li a {
+  color: white;
+  padding: 6px 10px;
+  display: block;
+  text-decoration: none;
+}
+
+.collapsed-items li a:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.dropdown-menu {
+  visibility: hidden; 
+  max-height: 0;
+  opacity: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #34495e;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+.dropdown-menu li {
+  padding: 8px 15px;
+  margin: 5px 0;
+}
+
+.dropdown-menu li a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  transition: color 0.3s;
+}
+
+.dropdown-menu li a:hover {
+  color: #007bff;
+}
+
+/* Sidebar menu item spacing */
+.menu-item {
+  margin: 2px 0;
+}
+
+.menu-item a {
+  padding: 8px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar.closed .menu-text {
+  display: none;
+}
+
+.menu {
+  list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-a {
-  color: inherit;
+.menu .menu-text {
+  display: inline-block;
+  transition: opacity 0.3s;
+  margin-left: 5px;
+}
+
+.menu-item {
+  position: relative;
+}
+
+.menu-item a {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  color: #ecf0f1;
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.menu-item i {
+  margin-right: 8px; 
+}
+
+.menu-item a:hover,
+.menu-item.active a {
+  background-color: #34495e;
+}
+
+.dropdown-menu.open {
+  visibility: visible; 
+  max-height: 300px;
+  opacity: 1; 
+  padding-left: 65px;
+  
+}
+
+.dropdown-menu.open li {
+  padding: 8px 0;
+}
+
+.dropdown-menu.open li a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  padding: 5px 0;
+}
+
+.dropdown-icon {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-menu.show {
+  display: block;
+  max-height: 300px;
+}
+
+.dropdown-icon.open {
+  transform: rotate(180deg); 
+}
+
+.dropdown-menu li {
+  padding: 4px 0;
+  margin: 2px;
+}
+
+.dropdown-menu li a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  padding: 6px 15px;
+  transition: color 0.3s;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #3a506b;
+}
+
+.dropdown-icon {
+  display: none; /* Hides the angle-down icon */
+}
+
+/* Sidebar Invite Section */
+.invite-section {
+  margin-top: auto; /* Push it to the bottom of the sidebar */
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+}
+
+/* When the sidebar is collapsed, adjust styles */
+.sidebar.collapsed .invite-section {
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Keep content centered */
+  justify-content: center; /* Center content vertically */
+}
+
+/* Add tooltip styles for non-dropdown items */
+.sidebar.closed .collapsed-tooltip {
+  display: none;
+  position: absolute;
+  left: 50px;
+  top: 0;
+  background: #244b7a;
+  padding: 10px;
+  border-radius: 4px;
+  min-width: 160px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.sidebar.closed .menu-item:hover .collapsed-tooltip {
+  display: block;
+}
+
+.sidebar.closed .collapsed-tooltip .menu-text {
+  display: block !important;
+  color: white;
+}
+
+
+/* Styling for the invite text */
+.invite-text {
+  margin-top: -60px; /* Adjust the margin to position the text */
+  padding: 30px;
+  text-align: center;
+  background-color: #20c997;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+/* When sidebar is collapsed, adjust invite-text styles */
+.sidebar.collapsed .invite-text {
+  margin-top: 0;
+  padding: 10px;
+  font-size: 0.9rem;
+}
+
+.invite-text h3 {
+  color: #ffffff;
+  margin: 10px 0;
+}
+
+.sidebar.collapsed .invite-text h3 {
+  font-size: 1rem;
+}
+
+/* Styling for the invite button */
+.invite-button {
+  background-color: #6c63ff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* When sidebar is collapsed, adjust button size */
+.sidebar.collapsed .invite-button {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+}
+
+.invite-button:hover {
+  background-color: #5a55e5;
+}
+
+/* Styling for the image */
+.invite-section img {
+  border-radius: 8px;
+  margin-bottom: 8px;
+  max-width: 100%;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+/* When sidebar is collapsed, adjust image size */
+.sidebar.collapsed .invite-section img {
+  max-width: 50px;
+  margin-bottom: 5px;
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f4f6f9;
+  padding: 15px 20px;
+  border-bottom: 1px solid #ddd;
+  flex-wrap: wrap;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+
+.left {
+  flex: 1;
+}
+
+.title {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  color: #1c1c9e;
+}
+
+.breadcrumb {
+  background-color: #dcd0d04d;
+  border-radius: 8px; /* Rounded corners */
+  padding: 10px 20px; /* Padding around the breadcrumb */
+  display: flex;
+  align-items: center;
+  margin-left: auto
+}
+
+.breadcrumb ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+  margin-right: 10px; /* Space between items */
+}
+
+.breadcrumb-icon {
+  margin-right: 5px; /* Space between icon and text */
+  color: #888888;
+}
+
+.breadcrumb-link {
+  color: #888888;
+  text-decoration: none;
+}
+
+.breadcrumb-link:hover {
+  color: #20c997;
+}
+
+.breadcrumb-separator {
+  margin: 0 5px; /* Small space around the separator */
+  color: #6c757d; /* Slightly muted color for separator */
+}
+
+.breadcrumb li.active {
+  font-weight: bold;
+  color: #000000;
+}
+
+/* Main Content Styles */
+.main-content {
+  margin-left: 250px;
+  padding: 40px;
+  background-color: #ecf0f1;
+  min-height: 100vh;
+  transition: margin-left 0.3s;
+}
+
+.main-content.expanded {
+  margin-left: 60px;
+}
+
+.main-content.with-sidebar.collapsed {
+  margin-left: 70px; /* Margin when sidebar is collapsed (60px + 10px gap) */
+}
+
+.finance-summary {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.summary-item {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  margin-right: 10px;
+}
+
+.summary-item h4 {
+  margin: 0 0 10px;
+  color: #244b7a;
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+}
+
+.summary-item .fas {
+  margin-right: 8px;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+.summary-item:last-child {
+  margin-right: 0;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  padding: 10px;
+  margin-top: 50px;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle, #03dac6, #6200ea);
+  border: 8px solid transparent;
+  border-top-color: #03dac6;
+  border-bottom-color: #6200ea;
+  animation: spin 5s linear infinite;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 24px;
+  justify-self: center;
+}
+
+.loader .count {
+  position: absolute;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+
+
+.loader::before {
+  position: absolute;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  animation: count 10s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.revenue-chart {
+  width: 100%;
+  max-width: 600px;
+  height: 350px;
+  margin: 20px auto;
+  margin-bottom: 10px;
+  margin-left: 2px;
+  background-color: #fff;
+  padding: 100px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.chart-calendar-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Container for the calendar */
+.calendar {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  justify-content: flex-start;
+  align-items: center;
+  margin: 30px 0;
+  margin-left: 15px;
+  padding: 15px;
+  background-color: #fff; /* White background */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  max-width: 100%; /* Make the container responsive */
+  width: 100%;
+  overflow: hidden; /* Prevent overflow */
+}
+
+/* Title for the calendar */
+.calendar h4 {
+  font-size: 18px; /* Smaller font size for the title */
+  margin-bottom: 15px; /* Add space below the title */
+  color: #333; /* Dark text for contrast */
+  font-weight: bold; /* Make the title bold */
+}
+
+/* Style for the react-calendar component */
+.react-calendar {
+  border-radius: 8px; /* Rounded corners for the calendar */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  background-color: #fff; /* White background */
+  font-family: Arial, sans-serif; /* Font for the calendar */
+  border: 1px solid #ddd; /* Light border */
+  width: 100%; /* Ensure calendar is responsive and fits its container */
+  max-width: 100%; /* Prevent it from exceeding container width */
+  overflow: hidden; /* Prevent calendar overflow */
+  margin: 0 auto; /* Center align the calendar */
+}
+
+/* Style for the navigation buttons (previous/next month) */
+.react-calendar__navigation button {
+  background: none;
+  border: none;
+  color: #007bff; /* Blue color */
+  font-size: 16px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+/* Hover effect for the navigation buttons */
+.react-calendar__navigation button:hover {
+  background-color: #f1f1f1; /* Light grey background */
+  border-radius: 4px;
+}
+
+/* Style for the days of the week (Sun, Mon, etc.) */
+.react-calendar__month-view__weekdays {
+  background-color: #f8f8f8; /* Light grey background */
+  font-weight: bold; /* Make weekdays bold */
+}
+
+/* Style for the individual days */
+.react-calendar__month-view__days__day {
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+  color: #333; /* Dark text */
+  cursor: pointer;
+}
+
+/* Highlight the selected date */
+.react-calendar__tile--active {
+  background-color: #007bff; /* Blue background for active tile */
+  color: #fff; /* White text */
+  border-radius: 50%; /* Round shape for active day */
+}
+
+/* Hover effect for the days */
+.react-calendar__tile:hover {
+  background-color: #f1f1f1; /* Light grey background on hover */
+  border-radius: 4px; /* Rounded corners on hover */
+}
+
+/* Style for the current day */
+.react-calendar__tile--now {
+  border: 2px solid #ff5722; /* Orange border for current day */
+}
+
+/* Disable days (optional) */
+.react-calendar__tile--disabled {
+  color: #ccc; /* Light grey color for disabled days */
+  pointer-events: none; /* Disable clicking */
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+  .react-calendar {
+    font-size: 12px; /* Smaller font size for the calendar on mobile */
+    width: 100% !important; /* Ensure the calendar takes full width */
+    margin: 0 10px; /* Add some margin to avoid touching screen edges */
+    max-width: none;
+  }
+
+  .calendar h4 {
+    font-size: 16px; /* Smaller title font size for mobile */
+    text-align: center; /* Center-align the title */
+    margin-bottom: 10px; /* Reduce margin below title */
+  }
+
+  .calendar {
+    padding: 10px; /* Adjust padding for mobile */
+    margin: 20px 0; /* Adjust margin for mobile */
+  }
+}
+
+.courses-title {
+  text-align: left;
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 20px;
+  color: #1c1c9e;
+}
+
+/* Container for all course cards */
+.courses-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Creates a responsive grid */
+  gap: 50px; /* Space between the grid items */
+  padding: 10px;
+  margin-right: 0;
+}
+
+/* Each course card */
+.course-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Image styling */
+.course-card img {
+  width: 100%;
+  height: auto;
+  border-bottom: 2px solid #f1f1f1;
+}
+
+/* Course card content */
+.course-card h4 {
+  font-family: "Outfit", sans-serif;
+  font-size: 18px;
+  margin: 10px;
+  color: #000000de;
+}
+
+.course-card .date {
+  color: #919aa3;
+  font-family: "Outfit", sans-serif;
+  font-size: 15px;
+}
+
+.course-card p {
+  font-family: "Outfit" sans-serif;
+  font-size: 14px;
+  margin: 5px 10px;
+  color: #000000de;
+  line-height: 3;
+}
+
+/* Button styling */
+.read-more {
+  display: block;
+  margin: 15px 10px;
+  padding: 10px;
+  background-color: #6c63ff;
+  color: white;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.read-more:hover {
+  background-color: #5a55e5;
+}
+
+.container {
+  /* max-width: 1200px; */
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px;
+}
+
+h3 {
+  text-align: left;
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 10px;
+  color: #1c1c9e;
+}
+
+table {
+  width: 100%;
+  min-width: 650px; /* Minimum width to prevent squishing */
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.btn1 {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn2 {
+  background-color: #f44336;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn1:hover {
+  background-color: #45a049;
+}
+
+.btn2:hover {
+  background-color: #d32f2f;
+}
+
+
+/* For small screens, reduce the sidebar width */
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none; /* Hide sidebar */
+    width: 0;
+    position: fixed;
+    z-index: 1000;
+    transition: width 0.3s ease;
+  }
+
+  .sidebar .logo {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .sidebar.closed {
+    width: 250px;
+  }
+
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .invite-section {
+    padding: 10px;
+  }
+
+  .finance-summary {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .summary-item {
+    margin-right: 0;
+  }
+
+  .summary-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .dropdown-menu {
+    max-height: 200px;
+  }
+
+  .calendar iframe {
+    height: 300px;
+  }
+
+  .header {
+    /* flex-wrap: wrap; */
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-right: auto;
+  }
+  
+  .breadcrumb {
+    width: 100%;
+    order: 2;
+    margin-top: 10px;
+  }
+
+  .courses-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 10p 15px;
+    /* margin-right: 20px; */
+  }
+
+  .course-card {
+    max-width: 100%;
+  }
+
+  .chart-calendar-container {
+    flex-direction: column;
+    padding: 0;
+    gap: 15px;
+    margin-right: 20px;
+  }
+  
+  .revenue-chart,
+  .calendar {
+    width: 100%;
+  }
+
+  .revenue-chart {
+    width: 100%;
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+  .revenue-chart canvas {
+    max-width: 90%;
+    height: 300px !important;
+  }
+
+  .calendar {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+    padding: 10px;
+  }
+
+  .react-calendar {
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 0 auto;
+  }
+
+  .container {
+    
+    padding: 5px;
+    margin: 0;
+  }
+  
+  table {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  td, th {
+    padding: 8px;
+    white-space: nowrap;
+  }
+
+  .btn1, .btn2 {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  td .btn1,
+  td .btn2 {
+    display: block;
+    width: 100%;
+    margin: 4px 0;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  .mobile-menu-toggle {
+    display: block;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 18px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+  .mobile-menu {
+    display: none; /* Hide mobile menu on larger screens */
   }
 }
